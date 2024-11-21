@@ -16,6 +16,7 @@ pip install -r requirements.txt
 ## Datasets Requirements
 
 The study leverages several datasets. Below are the key data sources:
+Make sure to explain that EV is downloaded from SPAGHETTI and solar from pvwatts. 
 
 | Data Source      | Description                                                  |
 |------------------|--------------------------------------------------------------|
