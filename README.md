@@ -1,4 +1,4 @@
-```
+
 # Deep Decarbonisation of the UK Residential Sector Requires Bidirectional EV Charging
 
 ## Overview
