@@ -130,21 +130,20 @@ This experiment analyzes operational costs across different scenarios. To run it
 This experiment evaluates how bidirectional charging can enhance self-consumption and reduce grid reliance. To run it:
 1. **Compute Grid Independence:**
    - Use the following formula to calculate grid independence:
-     $$
-     \text{Grid Independence} = 100 - \left(\frac{\text{Grid Import}}{\text{Total Load}}\right) \times 100
-     $$
+     Grid Independence = 100 - (Grid Import /Total Load) * 100
+
    - Apply this formula to the results from the `average_archetype_simulation.py` to compute grid independence for different archetype, CAH, operation, and solar combinations.
 2. **Use Faraday Data:**
    - The results using the Faraday data are already computed and stored in `data/simulation_results/independence.csv`.
    - This file can be used as input for generating the grid independence graph.
-3. **Generate Grid Independence Visualization** (`graphs/grid_independence_graph.py`)
+3. **Generate Grid Independence Visualisation** (`graphs/grid_independence_graph.py`)
    - Run this script to create a visual representation of grid independence.
    - It uses the precomputed results from `independence.csv` to generate the graph.
 ## Payback Time Analysis
-This experiment calculates how long it takes for the financial savings from a solar PV and EV system to offset the initial installation costs. To run it:
+This experiment calculates how long it takes for the financial savings from a solar PV and EV system to offset the initial installation costs of solar PV. To run it:
 1. **Compute OPEX Savings** (`utils/compute_opex_savings.py`)
    - Calculates yearly operational expenditure savings when using PV and EV
-   - Uses pre-conversion OPEX values computed from Faraday data (can be modified in the code)
+   - Uses pre-conversion OPEX values computed from Faraday data (can be modified in the code). This corresponds to the OPEX values (= grid costs) for houses without EV or PV.
    - Base values for houses without EV or PV are stored in the script:
      ```python
      pre_conversion_opex = {
@@ -156,22 +155,19 @@ This experiment calculates how long it takes for the financial savings from a so
 2. **Calculate CAPEX Using SOPEVS**
    - Uses [SOPEVS (Single-Roof Optimal PV-EV Sizing)](https://github.com/amcberkes/SOPEVS_Single_Roof) framework to compute least-cost solar PV capacity
    - Based on the paper: Berkes, Anaïs, and Srinivasan Keshav. "SOPEVS: Sizing and Operation of PV-EV-Integrated Modern Homes." Proceedings of the 15th ACM International Conference on Future and Sustainable Energy Systems. 2024.
-   - Parameters set to ensure each household can meet at least 50% of electrical load with 95% confidence
+   - Parameters set to ensure each household can meet at least 50% of electrical load with 95% confidence using the N-U and SG-B charging strategies
    - SOPEVS process:
      1. Samples input traces from PV generation, load, and EV usage
      2. Uses stochastic gradient descent to find minimum cost sizings
      3. Determines system sizings meeting predetermined quality-of-service criterion
 3. **Compute Payback Time**
    - Uses the formula:
-     $$
-     \text{Payback Time} = \frac{\text{CAPEX}}{\text{Yearly OPEX Savings}}
-     $$
+     Payback Time = CAPEX / Yearly OPEX Savings
    - Considers:
      - Two operation policies (unidirectional N-U vs bidirectional SG-B)
      - Three CAH types
      - Two solar profiles
-   - Note: Includes car operation cost in OPEX but not in CAPEX due to high variability in car prices
-4. **Generate Visualization** (`graphs/payback_time_graph.py`)
+4. **Generate Visualisation** (`graphs/payback_time_graph.py`)
    - Creates visual representation of payback time analysis
    - Shows results for different scenarios and configurations
 ## Household CO₂ Emissions Analysis
