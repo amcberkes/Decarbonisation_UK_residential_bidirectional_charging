@@ -41,13 +41,8 @@ All data sources - except for the load data - are publicly available. The reside
   - matplotlib
   - seaborn
 
-### Tested Operating Systems
+### Systems
 - macOS Monterey (12.0) or higher
-
-### Hardware Requirements
-- Minimum 8GB RAM
-- 10GB available disk space
-- Any modern CPU (Intel i5/AMD Ryzen 5 or better recommended)
 - No specialised hardware (GPU, etc.) required
 
 ### Installation Guide
