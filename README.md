@@ -97,7 +97,7 @@ This project is licensed under the [Creative Commons BY-NC 4.0](https://creative
 
 # Running Experiments
 
-The repository supports several experiments to analyze different aspects of residential energy usage and EV charging. Below are detailed instructions for running each experiment:
+The repository supports several experiments to analyse different aspects of residential energy usage and EV charging. Below are detailed instructions for running each experiment:
 
 ## OPEX (Operational Expenditure) Analysis
 This experiment analyzes operational costs across different scenarios. To run it:
@@ -115,8 +115,8 @@ This experiment analyzes operational costs across different scenarios. To run it
      - CAH patterns
      - Operation policies
      - Solar profiles
-   - Output: Averaged results stored in `data/simulation_results/averaged_simulation_results_Faraday.csv`
-3. **Generate OPEX Visualization** (`graphs/OPEX_graph.py`)
+   - Output: Averaged results from our study using Farday are stored in `data/simulation_results/averaged_simulation_results_Faraday.csv`
+3. **Generate OPEX Visualisation** (`graphs/OPEX_graph.py`)
    - Creates visual representation of operational expenditure analysis
    - Uses averaged results from step 2
    - Output: OPEX comparison graphs
@@ -130,9 +130,9 @@ This experiment analyzes operational costs across different scenarios. To run it
 This experiment evaluates how bidirectional charging can enhance self-consumption and reduce grid reliance. To run it:
 1. **Compute Grid Independence:**
    - Use the following formula to calculate grid independence:
-     \[
+     $$
      \text{Grid Independence} = 100 - \left(\frac{\text{Grid Import}}{\text{Total Load}}\right) \times 100
-     \]
+     $$
    - Apply this formula to the results from the `average_archetype_simulation.py` to compute grid independence for different archetype, CAH, operation, and solar combinations.
 2. **Use Faraday Data:**
    - The results using the Faraday data are already computed and stored in `data/simulation_results/independence.csv`.
@@ -163,9 +163,9 @@ This experiment calculates how long it takes for the financial savings from a so
      3. Determines system sizings meeting predetermined quality-of-service criterion
 3. **Compute Payback Time**
    - Uses the formula:
-     \[
+     $$
      \text{Payback Time} = \frac{\text{CAPEX}}{\text{Yearly OPEX Savings}}
-     \]
+     $$
    - Considers:
      - Two operation policies (unidirectional N-U vs bidirectional SG-B)
      - Three CAH types
