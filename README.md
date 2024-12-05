@@ -171,7 +171,7 @@ This experiment calculates how long it takes for the financial savings from a so
    - Creates visual representation of payback time analysis
    - Shows results for different scenarios and configurations
 ## Household CO₂ Emissions Analysis
-This experiment analyzes the CO₂ emissions from both household electricity consumption and personal vehicle usage at the household level. To run it:
+This experiment analyzss the CO₂ emissions from both household electricity consumption and personal vehicle usage at the household level. To run it:
 1. **Simulate Energy Usage** (`single_house_simulation.py`)
    - Same process as in OPEX analysis
    - Simulates energy use and EV charging for all studied households
@@ -180,7 +180,7 @@ This experiment analyzes the CO₂ emissions from both household electricity con
    - Same process as in OPEX analysis
    - Processes raw simulation results to compute average values
    - Output stored in `data/simulation_results/averaged_simulation_results_Faraday.csv`
-3. **Generate Emissions Visualization** (`graphs/household_emissions_graph.py`)
+3. **Generate Emissions Visualisation** (`graphs/household_emissions_graph.py`)
    - Creates visual representation of household-level CO₂ emissions
    - Combines both electricity and vehicle usage emissions
    - Shows results across different scenarios and configurations
@@ -190,8 +190,21 @@ This experiment analyzes the CO₂ emissions from both household electricity con
   gCO2_per_kwh = 162  # Default grid carbon intensity in gCO2/kWh
   ```
 - Adjust this value to reflect different scenarios or assumptions about grid carbon intensity.
-## National Decarbonization Scenarios Analysis
-This experiment analyzes different technology adoption scenarios at a national scale. To run it:
+## National Decarbonisation Scenarios Analysis
+
+In our study, we consider the following scenarios, each for unidirectional and bidirectional EV charging (where applicable):
+
+- **P**: Only Solar PV is adopted
+- **H + E (Uni)**: Only EVs supporting unidirectional charging are adopted, used for commuting on two weekdays
+- **E + P (Uni)**: Combined adoption of Solar PV and unidirectional-charging EVs, with EV used for daily commuting
+- **H + E + P (Uni)**: Combined adoption of Solar PV and unidirectional-charging EVs, with EV used for commuting two days per week
+- **H + E (Bi)**: Only EVs supporting bidirectional charging are adopted, used for commuting on two weekdays
+- **E + P (Bi)**: Combined adoption of Solar PV and bidirectional-charging EVs, with EV used for daily commuting
+- **H + P + E + S (Uni)**: Joint adoption of Solar PV systems, stationary storage systems (4 kWh), and unidirectional-charging EVs used for commuting two days per week
+- **H + E + P (Bi)**: Combined adoption of Solar PV and bidirectional-charging EVs, with EV used for commuting two days per week
+
+To run different scenarios, simply uncomment the corresponding line in the `single_house_simulation.py` file. Comments in the file explain which compiled simulation code from SOPEVS should be run for each scenario.
+
 1. **Run Single House Simulations** (`single_house_simulation.py`)
    - For each scenario, uncomment the corresponding compiled code command.
    - Each run will generate a `household_simulation_results.csv` file for that specific scenario.
