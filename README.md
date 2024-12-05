@@ -60,7 +60,7 @@ All data sources - except for the load data - are publicly available. The reside
 3. Ensure all data files are in their respective directories as described in the Dataset Requirements section
 
 ### Installation Time
-- Typical installation time should be less than 6 minutes on a normal desktop computer
+- Typical installation time should be less than 5 minutes on a normal desktop computer
 - Most of this time is spent downloading and installing the Python packages
 
 ### Running the Code
@@ -72,15 +72,24 @@ Note: Make sure to follow the exact steps described in the "Running Experiments"
 
 ## Methodology
 
-The methodology implemented in this study is divided into several critical components:
+The methodology implemented in this study is divided into several critical components. The simulation code is based on [SOPEVS](https://github.com/amcberkes/SOPEVs), and detailed methodology can be found in the paper correpsonding to this repository (currently under review).
 
-- **EV Charging Patterns**: Studies the impact of different EV charging methods (unidirectional vs bidirectional) and the percentage of time an EV remains at home (CAH).
-- **Solar PV Utilisation**: Models the integration and effectiveness of solar PV systems in meeting household energy demands.
-- **Grid Independence Analysis**: Evaluates how bidirectional charging can enhance self-consumption and reduce grid reliance.
-- **Emissions Impact**: Analyses the reduction in operational carbon emissions through combined solar PV and EV strategies.
-- **Economic Evaluation**: Calculates operational expenditure savings and payback time for investment in these technologies.
+### Available Experiments
 
-[Continue with the rest of the sections, maintaining British English spelling throughout]
+1. **Single House Analysis**
+   - Evaluates individual household performance for different combinations of charging strategies, solar PV radiation and EV usage patterns (CAH)
+   - Compares different charging strategies
+   - Analyses grid import patterns
+   - Calculates costs and emissions
+
+2. **Archetype Analysis**
+   - Studies patterns across different UK housing types: terraced, semi-detached, and detached houses
+
+
+3. **National Scenario Analysis**
+   - Scales results to national level
+   - Projects potential CO₂ emission reductions for different technology adoption scenarios and conversion levels
+
 
 ## License
 
