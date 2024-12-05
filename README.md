@@ -72,12 +72,12 @@ Note: Make sure to follow the exact steps described in the "Running Experiments"
 
 ## Methodology
 
-The methodology implemented in this study is divided into several critical components. The simulation code is based on [SOPEVS](https://github.com/amcberkes/SOPEVs), and detailed methodology can be found in the paper correpsonding to this repository (currently under review).
+The methodology implemented in this study is divided into several critical components. The simulation code is based on [SOPEVS](https://github.com/amcberkes/SOPEVs), and a detailed description of themethodology can be found in the paper correpsonding to this repository (currently under review).
 
 ### Available Experiments
 
 1. **Single House Analysis**
-   - Evaluates individual household performance for different combinations of charging strategies, solar PV radiation and EV usage patterns (CAH)
+   - Evaluates individual household performance for different combinations of charging strategies, solar PV radiation intensities and EV usage patterns (CAH)
    - Compares different charging strategies
    - Analyses grid import patterns
    - Calculates costs and emissions
@@ -91,90 +91,232 @@ The methodology implemented in this study is divided into several critical compo
    - Projects potential CO₂ emission reductions for different technology adoption scenarios and conversion levels
 
 
-## License
+# License
 
 This project is licensed under the [Creative Commons BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) Licence. You are free to share and adapt the material for non-commercial purposes, providing appropriate credit is given.
 
-## Running Experiments
+# Running Experiments
 
-### 1. Single House Analysis
-This experiment analyses the impact of different charging strategies on individual households.
+The repository supports several experiments to analyze different aspects of residential energy usage and EV charging. Below are detailed instructions for running each experiment:
 
-1. Navigate to the `experiments` directory:
-   ```bash
-   cd experiments/single_house
+## OPEX (Operational Expenditure) Analysis
+This experiment analyzes operational costs across different scenarios. To run it:
+1. **Simulate Energy Usage** (`single_house_simulation.py`)
+   - Simulates energy use and EV charging for all studied households over a one-year period
+   - Generates data for different combinations of:
+     - CAH Types (Car at Home patterns)
+     - Operation policies (unidirectional vs bidirectional charging)
+     - Solar generation profiles (high/low UK solar potential)
+   - Output: Raw simulation results for each household
+2. **Average Across Archetypes** (`average_archetype_simulation.py`)
+   - Processes raw simulation results
+   - Computes average grid emissions and costs for combinations of:
+     - Building archetypes
+     - CAH patterns
+     - Operation policies
+     - Solar profiles
+   - Output: Averaged results stored in `data/simulation_results/averaged_simulation_results_Faraday.csv`
+3. **Generate OPEX Visualization** (`graphs/OPEX_graph.py`)
+   - Creates visual representation of operational expenditure analysis
+   - Uses averaged results from step 2
+   - Output: OPEX comparison graphs
+### Supplemental: Varying Grid Electricity Cost
+- You can run the OPEX Analysis with different grid electricity cost values by modifying the `pounds_per_kwh` variable in `average_archetype_simulation.py`.
+  ```python
+  pounds_per_kwh = 0.35  # Default electricity cost in pounds
+  ```
+- Adjust this value to reflect different scenarios or assumptions about electricity costs.
+## Grid Independence Analysis
+This experiment evaluates how bidirectional charging can enhance self-consumption and reduce grid reliance. To run it:
+1. **Compute Grid Independence:**
+   - Use the following formula to calculate grid independence:
+     \[
+     \text{Grid Independence} = 100 - \left(\frac{\text{Grid Import}}{\text{Total Load}}\right) \times 100
+     \]
+   - Apply this formula to the results from the `average_archetype_simulation.py` to compute grid independence for different archetype, CAH, operation, and solar combinations.
+2. **Use Faraday Data:**
+   - The results using the Faraday data are already computed and stored in `data/simulation_results/independence.csv`.
+   - This file can be used as input for generating the grid independence graph.
+3. **Generate Grid Independence Visualization** (`graphs/grid_independence_graph.py`)
+   - Run this script to create a visual representation of grid independence.
+   - It uses the precomputed results from `independence.csv` to generate the graph.
+## Payback Time Analysis
+This experiment calculates how long it takes for the financial savings from a solar PV and EV system to offset the initial installation costs. To run it:
+1. **Compute OPEX Savings** (`utils/compute_opex_savings.py`)
+   - Calculates yearly operational expenditure savings when using PV and EV
+   - Uses pre-conversion OPEX values computed from Faraday data (can be modified in the code)
+   - Base values for houses without EV or PV are stored in the script:
+     ```python
+     pre_conversion_opex = {
+         'Terraced': 2739.301,
+         'Semi_Detached': 2904.193,
+         'Detached': 2957.12
+     }
+     ```
+2. **Calculate CAPEX Using SOPEVS**
+   - Uses [SOPEVS (Single-Roof Optimal PV-EV Sizing)](https://github.com/amcberkes/SOPEVS_Single_Roof) framework to compute least-cost solar PV capacity
+   - Based on the paper: Berkes, Anaïs, and Srinivasan Keshav. "SOPEVS: Sizing and Operation of PV-EV-Integrated Modern Homes." Proceedings of the 15th ACM International Conference on Future and Sustainable Energy Systems. 2024.
+   - Parameters set to ensure each household can meet at least 50% of electrical load with 95% confidence
+   - SOPEVS process:
+     1. Samples input traces from PV generation, load, and EV usage
+     2. Uses stochastic gradient descent to find minimum cost sizings
+     3. Determines system sizings meeting predetermined quality-of-service criterion
+3. **Compute Payback Time**
+   - Uses the formula:
+     \[
+     \text{Payback Time} = \frac{\text{CAPEX}}{\text{Yearly OPEX Savings}}
+     \]
+   - Considers:
+     - Two operation policies (unidirectional N-U vs bidirectional SG-B)
+     - Three CAH types
+     - Two solar profiles
+   - Note: Includes car operation cost in OPEX but not in CAPEX due to high variability in car prices
+4. **Generate Visualization** (`graphs/payback_time_graph.py`)
+   - Creates visual representation of payback time analysis
+   - Shows results for different scenarios and configurations
+## Household CO₂ Emissions Analysis
+This experiment analyzes the CO₂ emissions from both household electricity consumption and personal vehicle usage at the household level. To run it:
+1. **Simulate Energy Usage** (`single_house_simulation.py`)
+   - Same process as in OPEX analysis
+   - Simulates energy use and EV charging for all studied households
+   - Generates raw simulation results for different combinations of archetypes, CAH types, operation policies, and solar profiles
+2. **Average Across Archetypes** (`average_archetype_simulation.py`)
+   - Same process as in OPEX analysis
+   - Processes raw simulation results to compute average values
+   - Output stored in `data/simulation_results/averaged_simulation_results_Faraday.csv`
+3. **Generate Emissions Visualization** (`graphs/household_emissions_graph.py`)
+   - Creates visual representation of household-level CO₂ emissions
+   - Combines both electricity and vehicle usage emissions
+   - Shows results across different scenarios and configurations
+### Supplemental: Varying Grid Carbon Intensity
+- You can run the Household CO₂ Emissions Analysis with different grid carbon intensity values by modifying the `gCO2_per_kwh` variable in `average_archetype_simulation.py`.
+  ```python
+  gCO2_per_kwh = 162  # Default grid carbon intensity in gCO2/kWh
+  ```
+- Adjust this value to reflect different scenarios or assumptions about grid carbon intensity.
+## National Decarbonization Scenarios Analysis
+This experiment analyzes different technology adoption scenarios at a national scale. To run it:
+1. **Run Single House Simulations** (`single_house_simulation.py`)
+   - For each scenario, uncomment the corresponding compiled code command.
+   - Each run will generate a `household_simulation_results.csv` file for that specific scenario.
+2. **Run Average Archetype Simulations** (`average_archetype_simulation.py`)
+   - This script calculates average values of grid emissions across households for each combination of archetype, CAH type, operation, and solar condition.
+   - It provides the average grid emissions for each of the considered scenarios.
+   - Collect all these average emissions values in a file. We have provided the emissions results from our analysis in the file `data/simulation_results/national_level/emissions_all_scenarios.csv`.
+   
+   > **Note**: The grid carbon intensity used in the simulations can be modified by changing the `gCO2_per_kwh = 162` variable in `average_archetype_simulation.py`. This allows for analysis under different grid decarbonization scenarios.
+3. **Generate National Scenario Data** (`national_scenarios.py`)
+   - This script processes the average emissions data to prepare it for graph generation.
+   - It computes total emissions for different conversion rates (0% to 100% in 5% steps) for each scenario.
+   - The script generates separate CSV files for each combination of operation type (unidirectional/bidirectional) and solar condition (best/worst).
+   - Output files will be stored in `data/simulation_results/national/` with names following the pattern `{operation}_{solar}_all_scenarios.csv`.
+   - These files contain the projected national emissions (in megatons of CO2) for different technology adoption rates and scenarios.
+4. **Generate Graphs**
+   - If you want CO₂ emissions in megatonnes as the y-axis, run:
+     ```bash
+     python graphs/national_emissions_graph_tonnes.py
+     ```
+   - If you want the percentage reduction in CO₂ emissions compared to the baseline as the y-axis:
+     1. First, compute the percentage reduction:
+        ```bash
+        python graphs/national_emissions_percentage.py
+        ```
+     2. Then, generate the graph:
+        ```bash
+        python graphs/national_emissions_graph_percentage.py
+        ```
+These steps will produce visualizations of the national decarbonization scenarios, allowing you to analyze the impact of different technology adoption rates on CO₂ emissions.
+
    ```
 
-2. Run the analysis script:
-   ```bash
-   python run_single_house.py
-   ```
 
-3. Results will be saved in `results/single_house/` and include:
-   - Grid import/export visualisations
-   - Cost comparisons
-   - Emissions analyses
+# Demo Instructions
+## 1. OPEX Graph Demo
+This demo generates a graph showing the operational expenditure analysis.
+### Instructions to Run
+```bash
+python demo_opex_graph.py
+```
+### Expected Output
+- Generates OPEX comparison graphs in the graphs/ directory
+- Shows operational costs across different scenarios and configurations
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+## 2. Grid Independence Graph Demo
+This demo generates a graph showing how bidirectional charging enhances grid independence.
+### Instructions to Run
+```bash
+python demo_independence_graph.py
+```
+### Expected Output
+- Generates grid independence visualization in the graphs/ directory
+- Shows the percentage of grid independence achieved under different scenarios
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+## 3. Payback Time Analysis Demo
+This demo calculates and visualizes the payback time for solar PV and EV investments.
+### Instructions to Run
+```bash
+python demo_payback_time.py
+```
+### Expected Output
+- Computes OPEX savings for different scenarios
+- Generates payback time visualization in the graphs/ directory
+- Shows how long it takes for the financial savings to offset initial costs across different:
+  - Operation policies (unidirectional vs bidirectional)
+  - CAH types
+  - Solar profiles
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+### Note
+This demo uses pre-defined CAPEX values and the following base OPEX values for houses without EV or PV:
+- Terraced: £2,739.30
+- Semi-Detached: £2,904.19
+- Detached: £2,957.12
+## 4. Household CO₂ Emissions Analysis Demo
+This demo calculates and visualizes CO₂ emissions from household electricity consumption and personal vehicle usage.
+### Instructions to Run
+```bash
+python demo_household_co2_emissions.py
+```
+### Expected Output
+- Generates a visualization of household-level CO₂ emissions in the graphs/ directory
+- Combines emissions from both electricity and vehicle usage
+- Shows results across different scenarios and configurations
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+### Note
+This demo uses the default grid carbon intensity of 162 gCO₂/kWh. You can adjust this value in `average_archetype_simulation.py` to explore different scenarios.
+## 5. National CO₂ Emissions Graph (Tonnes) Demo
+This demo generates a graph showing national CO₂ emissions in tonnes.
+### Instructions to Run
+```bash
+python demo_national_co2_graph_tonnes.py
+```
+### Expected Output
+- Generates a national CO₂ emissions graph in tonnes in the graphs/ directory
+- Shows emissions across different technology adoption scenarios
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+## 6. National CO₂ Emissions Graph (Percentage) Demo
+This demo generates a graph showing the percentage reduction in national CO₂ emissions compared to the baseline.
+### Instructions to Run
+```bash
+python demo_national_co2_graph_percentage.py
+```
+### Expected Output
+- Generates a national CO₂ emissions reduction graph in the graphs/ directory
+- Shows percentage reduction in emissions across different technology adoption scenarios
+- Uses the baseline (no PV, no EV) scenario as reference point
+### Expected Run Time
+- Less than a minute on a standard desktop computer
+### Note
+This demo uses the default grid carbon intensity of 162 gCO₂/kWh. You can adjust this value in `average_archetype_simulation.py` to explore different scenarios.
+## Note
+All demos require:
+- All necessary data files to be present in their respective directories
+- Python packages listed in requirements.txt to be installed
 
-### 2. Archetype Analysis
-This experiment examines patterns across different housing archetypes.
-
-1. Ensure single house analysis has been completed
-2. Navigate to the archetype analysis directory:
-   ```bash
-   cd experiments/archetype
-   ```
-
-3. Run the analysis:
-   ```bash
-   python run_archetype_analysis.py
-   ```
-
-### 3. National Scenario Analysis
-This experiment scales the results to national level projections.
-
-1. Complete archetype analysis first
-2. Navigate to the scenarios directory:
-   ```bash
-   cd experiments/national
-   ```
-
-3. Run the scenario analysis:
-   ```bash
-   python run_national_scenarios.py
-   ```
-
-## Demo Files
-
-The `demos/` directory contains simplified versions of each analysis for quick testing and familiarisation.
-
-### Available Demos
-1. **Grid Independence Demo**
-   - Visualises how different charging strategies affect grid independence
-   - Runtime: Less than 1 minute
-   ```bash
-   python demos/demo_independence.py
-   ```
-
-2. **Cost Analysis Demo**
-   - Compares operational costs across different scenarios
-   - Runtime: Less than 1 minute
-   ```bash
-   python demos/demo_cost.py
-   ```
-
-3. **Emissions Analysis Demo**
-   - Shows CO₂ emissions reductions for different strategies
-   - Runtime: Less than 1 minute
-   ```bash
-   python demos/demo_emissions.py
-   ```
-
-4. **National Projections Demo**
-   - Demonstrates scaling of results to national level
-   - Runtime: Less than 1 minute
-   ```bash
-   python demos/demo_national.py
-   ```
 
 ## Data Processing
 
