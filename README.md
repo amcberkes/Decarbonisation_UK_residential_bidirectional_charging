@@ -16,18 +16,18 @@ pip install -r requirements.txt
 
 ## Datasets Requirements
 
-The study utilises several datasets. Below are the key data sources:
+The study uses several datasets. Below are the key data sources:
 
 | Data Source      | Description                                                  |
 |------------------|--------------------------------------------------------------|
-| [UK Building Archetypes](https://www.gov.uk/government/statistical-data-sets/energy-performance) | Data on UK building stock, focusing on the three most common archetypes (terraced, semi-detached, and detached houses) that make up 70% of occupied residential buildings. |
+| [UK Building Archetypes](https://www.gov.uk/government/statistical-data-sets/energy-performance) | Data on building stock, focusing on the three most common archetypes (terraced, semi-detached, and detached houses) that make up 70% of occupied residential buildings. |
 | [PVWatts](https://pvwatts.nrel.gov) | NREL tool used to estimate solar energy production, specifically modelling best-case (Weymouth) and worst-case (Lerwick) UK solar profiles. Hourly solar generation data for a 4kW system can be downloaded directly from the website. The downloaded files can be preprocessed and visualised by running `data/solar/prepare_inputs.py`. |
 | [SPAGHETTI](https://github.com/amcberkes/SPAGHETTI) | Synthetic data generator for post-Covid EV usage patterns, including commuting types and bidirectional charging capabilities. |
 | [Residential Load Data](https://www.centrefornetzero.org) | Residential electricity load profiles modelled using the Faraday tool. Access must be requested from Centre for Net Zero Limited. A modified sample load file is provided in `data/load/` to run the code. |
 | [Grid Emissions](https://www.carbonbrief.org/analysis-uk-electricity-from-fossil-fuels-drops-to-lowest-level-since-1957/) | UK grid carbon intensity data from 2023 (162 gCO₂/kWh). |
 | [Grid Cost](https://assets.publishing.service.gov.uk/media/6582b65223b70a000d234c97/quarterly-energy-prices-december-2023.pdf) | UK grid electricity cost data from 2023 (0.35 £/kWh). |
-| [Vehicle Emissions](https://www.some_url.com) | Carbon footprint data for fossil fuel powered cars in the UK in 2023, by market segment and fuel type (average 406 kg CO₂ per year based on average yearly distance). |
-| [EV Tariff](https://www.some_url.com) | Octopus Go EV tariff data, featuring lower night-time rates (7p/kWh between 11:30pm-5:30am). |
+| [Vehicle Emissions]([https://www.some_url.com](https://www.statista.com/statistics/1233409/carbon-footprint-of-cars-by-type-uk/)) | Carbon footprint data for fossil fuel powered cars in the UK in 2023, by market segment and fuel type (average 406 kg CO₂ per year based on average yearly distance). |
+| [EV Tariff](https://octopus.energy/smart/intelligent-octopus-go/) | Octopus Go EV tariff data, featuring lower night-time rates (7p/kWh between 11:30pm-5:30am). |
 
 All data sources - except for the load data - are publicly available. The residential electricity load profiles were modelled using the Faraday tool, developed by Centre for Net Zero Limited. While access to the complete Faraday dataset requires permission from Centre for Net Zero Limited, we have provided a modified sample load file in the `data/load/` directory that allows users to run and test the code.
 
