@@ -239,61 +239,57 @@ These steps will produce visualisations of the national decarbonisation scenario
 
 # Demo Instructions
 ## 1. OPEX Graph Demo
-This demo generates a graph showing the operational expenditure analysis.
+This demo generates a graph showing the operational expenditure analysis. All demo files are stored in the `demos/` directory.
 ### Instructions to Run
 ```bash
 python demo_opex_graph.py
 ```
 ### Expected Output
-- Generates OPEX comparison graphs in the graphs/ directory
+- Generates OPEX comparison graph
 - Shows operational costs across different scenarios and configurations
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
 ## 2. Grid Independence Graph Demo
-This demo generates a graph showing how bidirectional charging enhances grid independence.
+This demo generates a graph showing how bidirectional charging, CAH and solar PV enhances grid independence.
 ### Instructions to Run
 ```bash
 python demo_independence_graph.py
 ```
 ### Expected Output
-- Generates grid independence visualization in the graphs/ directory
-- Shows the percentage of grid independence achieved under different scenarios
+- Generates agrid independence visualisation showing the percentage of grid independence achieved under different scenarios
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
 ## 3. Payback Time Analysis Demo
-This demo calculates and visualizes the payback time for solar PV and EV investments.
+This demo calculates and visualises the payback time for solar PV investments.
 ### Instructions to Run
 ```bash
 python demo_payback_time.py
 ```
 ### Expected Output
 - Computes OPEX savings for different scenarios
-- Generates payback time visualization in the graphs/ directory
-- Shows how long it takes for the financial savings to offset initial costs across different:
+- Generates payback time visualisation: shows how long it takes for the financial savings to offset initial costs across different:
   - Operation policies (unidirectional vs bidirectional)
   - CAH types
   - Solar profiles
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
 ### Note
-This demo uses pre-defined CAPEX values and the following base OPEX values for houses without EV or PV:
+This demo uses pre-defined CAPEX values and the following base OPEX values for houses without EV or PV (from Faraday data):
 - Terraced: £2,739.30
 - Semi-Detached: £2,904.19
 - Detached: £2,957.12
 ## 4. Household CO₂ Emissions Analysis Demo
-This demo calculates and visualizes CO₂ emissions from household electricity consumption and personal vehicle usage.
+This demo calculates and visualises CO₂ emissions from household electricity consumption and personal vehicle usage.
 ### Instructions to Run
 ```bash
 python demo_household_co2_emissions.py
 ```
 ### Expected Output
-- Generates a visualization of household-level CO₂ emissions in the graphs/ directory
-- Combines emissions from both electricity and vehicle usage
+- Generates a visualisation of household-level CO₂ emissions, combining emissions from both electricity and vehicle usage
 - Shows results across different scenarios and configurations
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
-### Note
-This demo uses the default grid carbon intensity of 162 gCO₂/kWh. You can adjust this value in `average_archetype_simulation.py` to explore different scenarios.
+
 ## 5. National CO₂ Emissions Graph (Tonnes) Demo
 This demo generates a graph showing national CO₂ emissions in tonnes.
 ### Instructions to Run
@@ -301,8 +297,7 @@ This demo generates a graph showing national CO₂ emissions in tonnes.
 python demo_national_co2_graph_tonnes.py
 ```
 ### Expected Output
-- Generates a national CO₂ emissions graph in tonnes in the graphs/ directory
-- Shows emissions across different technology adoption scenarios
+- Generates a national CO₂ emissions graph in tonnes, showing emissions across different technology adoption scenarios
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
 ## 6. National CO₂ Emissions Graph (Percentage) Demo
@@ -312,13 +307,11 @@ This demo generates a graph showing the percentage reduction in national CO₂ e
 python demo_national_co2_graph_percentage.py
 ```
 ### Expected Output
-- Generates a national CO₂ emissions reduction graph in the graphs/ directory
-- Shows percentage reduction in emissions across different technology adoption scenarios
+- Generates a national CO₂ emissions reduction graph, showing the percentage reduction in emissions across different technology adoption scenarios
 - Uses the baseline (no PV, no EV) scenario as reference point
 ### Expected Run Time
 - Less than a minute on a standard desktop computer
-### Note
-This demo uses the default grid carbon intensity of 162 gCO₂/kWh. You can adjust this value in `average_archetype_simulation.py` to explore different scenarios.
+
 ## Note
 All demos require:
 - All necessary data files to be present in their respective directories
@@ -336,8 +329,8 @@ All demos require:
      ```
 
 2. **Load Profiles**
-   - Place the load files in `data/load/`
    - Request to download complete UK archetype load data can be made to Faraday at Centre for Net Zero Limited
+   - Place the load files in `data/load/`
 
 3. **EV Usage Patterns**
    - Generate synthetic patterns using [SPAGHETTI](https://github.com/amcberkes/SPAGHETTI)
