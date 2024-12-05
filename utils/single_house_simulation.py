@@ -1,32 +1,21 @@
-# To compute WFH+EV+PV standard for individualised building results
 import subprocess
 import pandas as pd
 import re
 import os
 
-'''
-TODO:
-- ADD CORRECT FILE PATHS
-- make code look better
-- add correct comments
-- make sure that all scenaios, including no EV and other compiled code versions are working
-- make sure to add different inputs to run the code with to create results for different experiments (normal for archetypes and then other scenarios for national aggregated)
-'''
-
-# Function to get paths of house files for each archetype
-def get_house_files(archetype):
-    # Use only A_House and D_House files for each archetype
-    return [f"A_House_{i}.txt" for i in range(1, 60)] + [f"D_House_{i}.txt" for i in range(1, 42)]
+# Function to get paths of house files
+def get_house_files():
+    # Changed path to go up one level
+    return [f for f in os.listdir("../data/load/") if f.endswith('.txt')]
 
 # Base path for the files
-base_path = os.path.abspath("./policy_data")  # This makes the base path absolute
+base_path = os.path.abspath("../data/load/")
+solar_path = os.path.abspath("../data/solar/")
 
-# Archetypes and their corresponding folders
-archetypes = ["Detached", "Semi_Detached", "Terraced"]
+# Archetypes and their corresponding folders (kept for compatibility)
+archetypes = ["Sample"]  # Modified to use single sample instead of different archetypes
 operations = ["safe_unidirectional", "hybrid_bidirectional"]
 wfh_types = ["T1", "T2", "T3"]
-# only model T2 for W+E+P
-#wfh_types = ["T2"]
 solar_conditions = {"worst": "Lerwick_pv.txt", "best": "Weymouth_pv.txt"}
 
 # Prepare DataFrame to collect results
@@ -34,8 +23,8 @@ results = []
 
 # Iterate over configurations
 for archetype in archetypes:
-    for house_file in get_house_files(archetype):
-        house_file_path = os.path.join(base_path, archetype, house_file)
+    for house_file in get_house_files():
+        house_file_path = os.path.join(base_path, house_file)
         
         # Check if the house file exists
         if not os.path.exists(house_file_path):
@@ -45,17 +34,27 @@ for archetype in archetypes:
         for wfh_type in wfh_types:
             for op in operations:
                 for solar_key, solar_file_name in solar_conditions.items():
-                    solar_file_path = os.path.join(base_path, "Solar_UK", solar_file_name)
+                    solar_file_path = os.path.join(solar_path, solar_file_name)
                     
                     # Check if the solar file exists
                     if not os.path.exists(solar_file_path):
                         print(f"Error: Solar file does not exist - {solar_file_path}")
                         continue  # Skip this solar file if it does not exist
                     
-                    # Construct command
-                    command = f"./bin/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} {base_path}/ev_UK/merged_{wfh_type}_UK.csv 0 4"
-                    # call this command if there is no PV in the scenario
-                    #command = f"./bin_nosolar/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} {base_path}/ev_UK/merged_{wfh_type}_UK.csv 0 4"
+                    # Default: PV and EV scenario
+                    command = f"../compiled_code/bin_pv_ev/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} ../data/ev_usage/merged_{wfh_type}_UK.csv 0 4"
+                    
+                    # For EV only (no PV) scenario
+                    #command = f"../compiled_code/bin_ev_only/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} ../data/ev_usage/merged_{wfh_type}_UK.csv 0 4"
+                    
+                    # For PV only (no EV) scenario
+                    #command = f"../compiled_code/bin_pv_only/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} ../data/ev_usage/merged_{wfh_type}_UK.csv 0 4"
+                    
+                    # For PV, EV, and storage scenario
+                    #command = f"../compiled_code/bin_pv_ev_storage/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} ../data/ev_usage/merged_{wfh_type}_UK.csv 0 4"
+                    
+                    # For storage, EV, and PV scenario (alternative implementation)
+                    #command = f"../compiled_code/bin_storage_ev_pv/sim 2100 480 10 20 1 0.5 0.95 365 {house_file_path} {solar_file_path} 0.8 0.2 60.0 7.4 {op} ../data/ev_usage/merged_{wfh_type}_UK.csv 0 4"
 
                     print("Executing command: " + command)
                     
@@ -69,8 +68,8 @@ for archetype in archetypes:
                     # Store results
                     results.append({
                         "Archetype": archetype,
-                        "House number": house_file.split('_')[2].split('.')[0],
-                        "WFH Type": wfh_type,
+                        "House number": 1,
+                        "CAH Type": wfh_type.replace("T", "H"),
                         "Operation": op,
                         "Solar": solar_key,
                         "Grid Import": float(grid_import_match.group(1)) if grid_import_match else None,
@@ -79,4 +78,4 @@ for archetype in archetypes:
 
 # Convert results to DataFrame and save to CSV
 df_results = pd.DataFrame(results)
-df_results.to_csv("simulation_results_2607__opex2.csv", index=False)
+df_results.to_csv("../data/simulation_results/household_simulation_results.csv", index=False)

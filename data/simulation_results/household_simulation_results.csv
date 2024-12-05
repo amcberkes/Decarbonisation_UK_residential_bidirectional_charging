@@ -1,0 +1,13 @@
+Archetype,House number,CAH Type,Operation,Solar,Grid Import,Total Cost
+Sample,1,H1,safe_unidirectional,worst,4315.75,817.389
+Sample,1,H1,safe_unidirectional,best,4122.34,720.415
+Sample,1,H1,hybrid_bidirectional,worst,3426.8,238.584
+Sample,1,H1,hybrid_bidirectional,best,3212.51,127.838
+Sample,1,H2,safe_unidirectional,worst,3846.69,780.887
+Sample,1,H2,safe_unidirectional,best,3662.14,683.913
+Sample,1,H2,hybrid_bidirectional,worst,2750.76,214.43
+Sample,1,H2,hybrid_bidirectional,best,2570.8,106.947
+Sample,1,H3,safe_unidirectional,worst,3529.92,755.712
+Sample,1,H3,safe_unidirectional,best,3353.3,658.739
+Sample,1,H3,hybrid_bidirectional,worst,2496.94,230.567
+Sample,1,H3,hybrid_bidirectional,best,1978.19,65.4007
