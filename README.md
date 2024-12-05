@@ -2,7 +2,9 @@
 
 ## Overview
 
-This code repository provides the implementation and analysis for the study on the deep decarbonisation of the UK residential sector through bidirectional EV (Electric Vehicle) charging. As climate-induced changes increasingly impact energy consumption patterns, understanding the integration and benefits of sustainable technologies is essential for achieving carbon neutrality and enhancing energy resilience.
+This code repository provides the implementation and analysis for the study on the deep decarbonisation of the UK residential sector through bidirectional EV (Electric Vehicle) charging. 
+
+The synergy between residential solar photovoltaic systems and electric vehicles parked at home can substantially reduce a household’s operational expenditure, capital expenditure, and payback time, as well as its CO2 emissions. These benefits are dramatically improved when an electric vehicle is allowed to discharge energy into the home (i.e., with bidirectional charging). We find that while individually each element contributes to significant cost savings and decarbonisation, their simultaneous adoption has significant additional benefits. For example, the system payback-time decreases from 14 to 2 years and household carbon emissions are reduced by up to 66%. Additional co-benefits include improved grid resilience and increased energy independence. Furthermore, at the national level, 90% adoption of bidirectional charging could reduce the UK’s CO2 emissions by 13 million tonnes annually, corresponding to a 55% decrease in current electricity and vehicle use emissions. We therefore urge policy makers and regulators to encourage its rapid adoption.
 
 ## Package Requirements
 
