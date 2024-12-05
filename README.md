@@ -195,13 +195,11 @@ This experiment analyzss the CO₂ emissions from both household electricity con
 In our study, we consider the following scenarios, each for unidirectional and bidirectional EV charging (where applicable):
 
 - **P**: Only Solar PV is adopted
-- **H + E (Uni)**: Only EVs supporting unidirectional charging are adopted, used for commuting on two weekdays
-- **E + P (Uni)**: Combined adoption of Solar PV and unidirectional-charging EVs, with EV used for daily commuting
-- **H + E + P (Uni)**: Combined adoption of Solar PV and unidirectional-charging EVs, with EV used for commuting two days per week
-- **H + E (Bi)**: Only EVs supporting bidirectional charging are adopted, used for commuting on two weekdays
-- **E + P (Bi)**: Combined adoption of Solar PV and bidirectional-charging EVs, with EV used for daily commuting
+- **H + E **: Only EVs are adopted and used for commuting on two weekdays
+- **E + P **: Combined adoption of Solar PV and EVs, with EV used for daily commuting
+- **H + E + P **: Combined adoption of Solar PV and EVs, with EV used for commuting two days per week.
 - **H + P + E + S (Uni)**: Joint adoption of Solar PV systems, stationary storage systems (4 kWh), and unidirectional-charging EVs used for commuting two days per week
-- **H + E + P (Bi)**: Combined adoption of Solar PV and bidirectional-charging EVs, with EV used for commuting two days per week
+
 
 To run different scenarios, simply uncomment the corresponding line in the `single_house_simulation.py` file. Comments in the file explain which compiled simulation code from SOPEVS should be run for each scenario.
 
