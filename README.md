@@ -195,9 +195,9 @@ This experiment analyzss the CO₂ emissions from both household electricity con
 In our study, we consider the following scenarios, each for unidirectional and bidirectional EV charging (where applicable):
 
 - **P**: Only Solar PV is adopted
-- **H + E **: Only EVs are adopted and used for commuting on two weekdays
-- **E + P **: Combined adoption of Solar PV and EVs, with EV used for daily commuting
-- **H + E + P **: Combined adoption of Solar PV and EVs, with EV used for commuting two days per week.
+- **H + E**: Only EVs are adopted and used for commuting on two weekdays
+- **E + P**: Combined adoption of Solar PV and EVs, with EV used for daily commuting
+- **H + E + P**: Combined adoption of Solar PV and EVs, with EV used for commuting two days per week.
 - **H + P + E + S (Uni)**: Joint adoption of Solar PV systems, stationary storage systems (4 kWh), and unidirectional-charging EVs used for commuting two days per week
 
 
