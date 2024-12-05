@@ -232,9 +232,9 @@ To run different scenarios, simply uncomment the corresponding line in the `sing
         ```bash
         python graphs/national_emissions_graph_percentage.py
         ```
-These steps will produce visualizations of the national decarbonization scenarios, allowing you to analyze the impact of different technology adoption rates on CO₂ emissions.
+These steps will produce visualisations of the national decarbonisation scenarios, allowing you to analyse the impact of different technology adoption rates on CO₂ emissions.
 
-   ```
+
 
 
 # Demo Instructions
